@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">itp4501Assignment</string>
+    <string name="iqQuiz">IQ Quiz</string>
+    <string name="btnStart">Start</string>
+    <string name="btnRecord">Record</string>
 </resources>
