@@ -21,6 +21,7 @@ public class QuestionItem {
         this.correct = correct;
 
         answerList.add(correct);
+        // generate the random number from 1 to 500
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
             answerList.add(random.nextInt(500 - 1 + 1) + 1);
@@ -57,9 +58,4 @@ public class QuestionItem {
         return correct;
     }
 
-    private int[] arrayAddToEnd(int[] array, int value) {
-        int[] result = Arrays.copyOf(array, array.length + 1);
-        result[result.length - 1] = value;
-        return result;
-    }
 }

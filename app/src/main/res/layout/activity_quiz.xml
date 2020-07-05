@@ -52,7 +52,7 @@
         >
         <RadioButton
             android:id="@+id/answer1"
-            android:text="Option 1"
+            android:text="Loading Option 1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -60,15 +60,15 @@
             android:id="@+id/answer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Option 2" />
+            android:text="Loading Option 2" />
         <RadioButton
             android:id="@+id/answer3"
-            android:text="Option 3"
+            android:text="Loading Option 3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <RadioButton
             android:id="@+id/answer4"
-            android:text="Option 4"
+            android:text="Loading Option 4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </RadioGroup>

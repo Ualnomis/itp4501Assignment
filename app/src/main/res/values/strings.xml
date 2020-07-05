@@ -3,5 +3,5 @@
     <string name="iqQuiz">IQ Quiz</string>
     <string name="btnStart">Start</string>
     <string name="btnRecord">Record</string>
-    <string name="question">Question</string>
+    <string name="question">Loading Question...</string>
 </resources>

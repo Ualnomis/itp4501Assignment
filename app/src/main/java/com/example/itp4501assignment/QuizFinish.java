@@ -13,9 +13,11 @@ public class QuizFinish extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_finish);
         tvResult = findViewById(R.id.tvResult);
-        int correct = getIntent().getIntExtra("corrent", 0);
+        int correct = getIntent().getIntExtra("correct", 0);
         int wrong = getIntent().getIntExtra("wrong", 0);
-        tvResult.setText("Correct: " + correct + "\nWrong: " + wrong);
+        double playTime = getIntent().getDoubleExtra("playTime", 0);
+        double averageTime = playTime / 5;
+        tvResult.setText("Correct: " + correct + "\nWrong: " + wrong + "\nTotal Play Time: " + playTime + " second" + "\nAverage Play Time: " + averageTime + " second");
     }
 
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -16,10 +17,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,67 +35,88 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
 
     String json;
     List<QuestionItem> questionItems;
-    private TextView tvQuestiion;
+    private TextView tvQuestion, tvNoOfQuestion, tvCorrect;
     private RadioButton answer1, answer2, answer3, answer4;
     int currentQuestion = 0;
     int correct = 0;
     int wrong = 0;
+    int numOfQuestion = 0;
+    private double startTime = 0;
     MyAsyncTask task = null;
+    Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_quiz);
-        tvQuestiion = findViewById(R.id.tvQuestion);
+        tvQuestion = findViewById(R.id.tvQuestion);
         answer1 = findViewById(R.id.answer1);
         answer2 = findViewById(R.id.answer2);
         answer3 = findViewById(R.id.answer3);
         answer4 = findViewById(R.id.answer4);
+        btnNext = findViewById(R.id.btnNext);
+        tvNoOfQuestion = findViewById(R.id.tvNoOfQuestion);
+        tvCorrect = findViewById(R.id.tvCorrect);
 
-        if (task == null || task.getStatus().equals(AsyncTask.Status.FINISHED)) {
-            task = new MyAsyncTask();
-            new MyAsyncTask(this).execute();
-        }
+        // set the number of question need to get
+        numOfQuestion = 5;
 
-        loadAllQuestions();;
+        // disable the button before the question is load
+        btnNext.setEnabled(false);
+        // set the button Next to Loading before the question is load
+        btnNext.setText("Loading...");
 
-        Collections.shuffle(questionItems);
-
-        setQuestionScreen(currentQuestion);
+        // use ASyncTask to get the json from url
+        task = new MyAsyncTask();
+        new MyAsyncTask(this).execute();
     }
 
     @Override
     public void updateDownloadResult(String result) {
-        json = result;
+        // load all the question from json url
+        loadAllQuestion(result);
+        // shuffle the question order
+        Collections.shuffle(questionItems);
+        // set the question to screen
+        setQuestionScreen(currentQuestion);
+
+        // enable the button after the questions are load
+        btnNext.setText("Next");
+        btnNext.setEnabled(true);
+
+        // initial the start time
+        startTime = System.currentTimeMillis();
     }
 
-    // make list with all questions
-    private void loadAllQuestions() {
+    private void loadAllQuestion(String json) {
         questionItems = new ArrayList<>();
-        String jsonStr = "{\"questions\": [{\"question\": \"11, 13, 17, 19, 23, 29, 31, 37, 41, ? \", \"answer\": 43}, {\"question\": \"11, 10, ?, 100, 1001, 1000, 10001\", \"answer\": 101}, {\"question\": \"20, 19, 17, ?, 10, 5\", \"answer\": 14}, {\"question\": \"9, 12, 11, 14, 13, ?, 15\", \"answer\": 16}, {\"question\": \"4, 6, 12, 14, 28, 30, ?\", \"answer\": 60}, {\"question\": \"36, 34, 30, 28, 24, ?\", \"answer\": 22}, {\"question\": \"1, 4, 27, 16, ?, 36, 343\", \"answer\": 125}, {\"question\": \"6, 11, 21, 36, 56, ? \", \"answer\": 81}, {\"question\": \"2, 3, 5, 7, 11, ?, 17\", \"answer\": 13}, {\"question\": \"2, 7, 14, 23, ?, 47\", \"answer\": 34}]}";
-       try {
-           JSONObject jsonObject = new JSONObject(jsonStr);
-           JSONArray questions = jsonObject.getJSONArray("questions");
-           for (int i = 0; i < questions.length(); i++) {
-               JSONObject question = questions.getJSONObject(i);
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray questions = jsonObject.getJSONArray("questions");
+            for (int i = 0; i < questions.length(); i++) {
+                JSONObject question = questions.getJSONObject(i);
 
-               String questionString = question.getString("question");
-               int correct = question.getInt("answer");
+                String questionString = question.getString("question");
+                int answer = question.getInt("answer");
 
-               questionItems.add(new QuestionItem(questionString, correct));
-           }
+                questionItems.add(new QuestionItem(questionString, answer));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
-       }
+        }
     }
 
     // set question to the screen
     private void setQuestionScreen(int number) {
-        tvQuestiion.setText(questionItems.get(number).getQuestion());
+        tvQuestion.setText(questionItems.get(number).getQuestion());
         answer1.setText(questionItems.get(number).getAnswer1() + "");
         answer2.setText(questionItems.get(number).getAnswer2() + "");
         answer3.setText(questionItems.get(number).getAnswer3() + "");
         answer4.setText(questionItems.get(number).getAnswer4() + "");
+        tvCorrect.setText("Correct: " + correct + " / " + numOfQuestion);
+        tvNoOfQuestion.setText("No of Question: " + (number + 1) + " / " + numOfQuestion);
     }
 
     public void onNextClick(View v) {
@@ -101,6 +128,56 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
                 wrong++;
                 Toast.makeText(this, "Wrong!", Toast.LENGTH_SHORT).show();
             }
+
+            updateQuestion();
+        } else if (answer2.isChecked()) {
+            if (questionItems.get(currentQuestion).getAnswer2() == questionItems.get(currentQuestion).getCorrect()) {
+                correct++;
+                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            } else {
+                wrong++;
+                Toast.makeText(this, "Wrong!", Toast.LENGTH_SHORT).show();
+            }
+
+            updateQuestion();
+        } else if (answer3.isChecked()) {
+            if (questionItems.get(currentQuestion).getAnswer3() == questionItems.get(currentQuestion).getCorrect()) {
+                correct++;
+                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            } else {
+                wrong++;
+                Toast.makeText(this, "Wrong!", Toast.LENGTH_SHORT).show();
+            }
+
+            updateQuestion();
+        } else if (answer4.isChecked()) {
+            if (questionItems.get(currentQuestion).getAnswer4() == questionItems.get(currentQuestion).getCorrect()) {
+                correct++;
+                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            } else {
+                wrong++;
+                Toast.makeText(this, "Wrong!", Toast.LENGTH_SHORT).show();
+            }
+
+             updateQuestion();
         }
     }
+    // update the question after answer the previous question
+    private void updateQuestion() {
+        int size = numOfQuestion - 1;
+        if (currentQuestion < size) {
+            currentQuestion++;
+            setQuestionScreen(currentQuestion);
+        } else {
+            double finishTime = System.currentTimeMillis();
+            double elapsedTime = (finishTime - startTime) / 1000;
+            Intent intent = new Intent(this, QuizFinish.class);
+            intent.putExtra("playTime", elapsedTime);
+            intent.putExtra("correct", correct);
+            intent.putExtra("wrong", wrong);
+            startActivity(intent);
+            finish();
+        }
+    }
+
 }
