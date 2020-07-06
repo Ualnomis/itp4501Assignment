@@ -198,6 +198,10 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
             ContentValues questionsLog = new ContentValues();
             ContentValues testsLog = new ContentValues();
 
+
+            // -------------------------------------------------------------------------------------
+            // able to move to DBHelp class
+            // -------------------------------------------------------------------------------------
             // insert the value to questionsLog
             for (int i = 0; i < numOfQuestion; i++) {
                 questionsLog.put("question", (questionItems.get(i).getQuestion() + ""));
@@ -205,7 +209,6 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
                 questionsLog.put("isCorrect", (isCorrect[i] + ""));
                 quizDB.insert("QuestionsLog", null, questionsLog);
             }
-
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String date = sdf.format(new Date());
             testsLog.put("testDate", date);
@@ -215,6 +218,9 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
             testsLog.put("duration", elapsedTime + "");
             testsLog.put("correctCount", correct + "");
             quizDB.insert("TestsLog", null, testsLog);
+            // ---------------------------------------------------------------------------------
+
+
 
             // create a intent to a new activity
             Intent intent = new Intent(this, QuizFinish.class);
@@ -222,6 +228,7 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
             intent.putExtra("correct", correct);
             intent.putExtra("wrong", wrong);
 
+            // start the activity
             startActivity(intent);
             finish();
         }

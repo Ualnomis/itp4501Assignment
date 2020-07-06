@@ -1,8 +1,10 @@
 package com.example.itp4501assignment;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -36,5 +38,18 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         System.out.println("Update the database");
+    }
+
+    public Cursor readAllData() {
+        String sql = "SELECT * FROM TestsLog";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(sql, null);
+
+        }
+        System.out.println("DBH:     " + cursor);
+        return cursor;
     }
 }
