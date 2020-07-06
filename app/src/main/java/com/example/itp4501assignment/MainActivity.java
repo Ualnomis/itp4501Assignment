@@ -17,13 +17,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.btnStart:
-                Intent intent = new Intent(this, QuizActivity.class);
+                System.out.println("Start the quiz");
+                intent = new Intent(this, QuizActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.btnRecord:
+                intent = new Intent(this, QuizRecord.class);
+                startActivity(intent);
                 break;
         }
     }

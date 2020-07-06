@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class MyAsyncTask extends AsyncTask<String, Integer, String> {
     private OnDownloadFinishListener listener;
-    private final String TAG =" HI";
+    private final String TAG =" MyAsyncTask";
 
     public MyAsyncTask() {
 
@@ -40,7 +40,7 @@ public class MyAsyncTask extends AsyncTask<String, Integer, String> {
                 result += line;
             }
 
-            Log.d(TAG, "Debug");
+            Log.d(TAG, "Load json Success");
             inputStream.close();
         } catch (Exception e) {
             result = e.getMessage();
