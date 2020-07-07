@@ -1,9 +1,11 @@
-package com.example.itp4501assignment;
+package com.example.itp4501assignment.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.example.itp4501assignment.R;
 
 public class QuizFinish extends AppCompatActivity {
 

@@ -13,10 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ViewQuizDetail"></activity>
-        <activity android:name=".QuizRecord" />
-        <activity android:name=".QuizFinish" />
-        <activity android:name=".QuizActivity" />
+        <activity android:name=".activity.ChartActivity"></activity>
+        <activity android:name=".activity.ViewQuizDetail" />
+        <activity android:name=".activity.QuizRecord" />
+        <activity android:name=".activity.QuizFinish" />
+        <activity android:name=".activity.QuizActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

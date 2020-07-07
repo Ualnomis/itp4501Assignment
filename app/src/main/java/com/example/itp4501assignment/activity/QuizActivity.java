@@ -1,42 +1,31 @@
-package com.example.itp4501assignment;
+package com.example.itp4501assignment.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.itp4501assignment.database.DBHelper;
+import com.example.itp4501assignment.asyncTask.MyAsyncTask;
+import com.example.itp4501assignment.asyncTask.OnDownloadFinishListener;
+import com.example.itp4501assignment.entity.QuestionItem;
+import com.example.itp4501assignment.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity implements OnDownloadFinishListener {
 
+    // variable dictionary
     String json;
     List<QuestionItem> questionItems;
     private TextView tvQuestion, tvNoOfQuestion, tvCorrect;
@@ -50,7 +39,6 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
     Button btnNext;
     int[] isCorrect;
     int[] yourAnswer;
-
     String json1;
 
     @Override
@@ -77,22 +65,26 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         // set the number of answer need to save
         yourAnswer = new int[numOfQuestion];
 
-        // disable the button before the question is load
-        btnNext.setEnabled(false);
-        // set the button Next to Loading before the question is load
-        btnNext.setText("Loading...");
+//        // disable the button before the question is load
+//        btnNext.setEnabled(false);
+//        // set the button Next to Loading before the question is load
+//        btnNext.setText("Loading...");
+
 
         // use ASyncTask to get the json from url
         // task = new MyAsyncTask();
         // new MyAsyncTask(this).execute();
 
-
+        // get the json from intent
         Intent intent = getIntent();
         json1 = intent.getStringExtra("json");
+
         // load all the question from json url
         loadAllQuestion(json1);
+
         // shuffle the question order
         Collections.shuffle(questionItems);
+
         // set the question to screen
         setQuestionScreen(currentQuestion);
 
@@ -150,6 +142,7 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         tvNoOfQuestion.setText("No of Question: " + (number + 1) + " / " + numOfQuestion);
     }
 
+    // action when btnNext click
     public void onNextClick(View v) {
         if (answer1.isChecked()) {
             if (questionItems.get(currentQuestion).getAnswer1() == questionItems.get(currentQuestion).getCorrect()) {

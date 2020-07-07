@@ -1,4 +1,4 @@
-package com.example.itp4501assignment;
+package com.example.itp4501assignment.entity;
 
 import java.util.ArrayList;
 import java.util.Arrays;

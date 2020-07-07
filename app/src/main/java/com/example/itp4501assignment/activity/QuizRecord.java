@@ -1,9 +1,10 @@
-package com.example.itp4501assignment;
+package com.example.itp4501assignment.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,6 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.itp4501assignment.database.DBHelper;
+import com.example.itp4501assignment.R;
+import com.example.itp4501assignment.recyclerViewAdapter.TestsLogAdapter;
 
 import java.util.ArrayList;
 
@@ -66,5 +71,10 @@ public class QuizRecord extends AppCompatActivity {
     public void onClickClearRecord(View view) {
         deleteDatabase("quizDB");
         recreate();
+    }
+
+    public void onClickShowChart(View view) {
+        Intent intent = new Intent(this, ChartActivity.class);
+        startActivity(intent);
     }
 }

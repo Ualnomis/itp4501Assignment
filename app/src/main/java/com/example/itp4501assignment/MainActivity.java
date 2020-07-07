@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
+import com.example.itp4501assignment.activity.QuizActivity;
+import com.example.itp4501assignment.activity.QuizRecord;
+import com.example.itp4501assignment.asyncTask.MyAsyncTask;
+import com.example.itp4501assignment.asyncTask.OnDownloadFinishListener;
 
 public class MainActivity extends AppCompatActivity implements OnDownloadFinishListener {
 
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements OnDownloadFinishL
         switch (v.getId()) {
             case R.id.btnStart:
                 System.out.println("Start the quiz");
-
+                // load json
                 task=new MyAsyncTask();
                 new MyAsyncTask(this).execute();
 

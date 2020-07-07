@@ -1,9 +1,12 @@
-package com.example.itp4501assignment;
+package com.example.itp4501assignment.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+
+import com.example.itp4501assignment.database.DBHelper;
+import com.example.itp4501assignment.R;
 
 import java.util.ArrayList;
 

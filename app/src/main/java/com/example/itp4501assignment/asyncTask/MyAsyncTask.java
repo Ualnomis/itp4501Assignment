@@ -1,8 +1,7 @@
-package com.example.itp4501assignment;
+package com.example.itp4501assignment.asyncTask;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
