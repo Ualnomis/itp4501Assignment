@@ -51,6 +51,8 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
     int[] isCorrect;
     int[] yourAnswer;
 
+    String json1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -66,6 +68,8 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         tvNoOfQuestion = findViewById(R.id.tvNoOfQuestion);
         tvCorrect = findViewById(R.id.tvCorrect);
 
+
+
         // set the number of question need to get
         numOfQuestion = 5;
         // set the number of correct question need to save
@@ -79,8 +83,25 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         btnNext.setText("Loading...");
 
         // use ASyncTask to get the json from url
-        task = new MyAsyncTask();
-        new MyAsyncTask(this).execute();
+        // task = new MyAsyncTask();
+        // new MyAsyncTask(this).execute();
+
+
+        Intent intent = getIntent();
+        json1 = intent.getStringExtra("json");
+        // load all the question from json url
+        loadAllQuestion(json1);
+        // shuffle the question order
+        Collections.shuffle(questionItems);
+        // set the question to screen
+        setQuestionScreen(currentQuestion);
+
+        // enable the button after the questions are load
+        btnNext.setText("Next");
+        btnNext.setEnabled(true);
+
+        // initial the start time
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -173,6 +194,7 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
              updateQuestion();
         }
     }
+
     // update the question after answer the previous question
     private void updateQuestion() {
         int size = numOfQuestion - 1;
@@ -184,7 +206,6 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
                 btnNext.setText("Finish");
             }
         } else {
-
             // get the finish time
             double finishTime = System.currentTimeMillis();
             // calculate the total play time
@@ -192,35 +213,14 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
 
             // store the data to database
             DBHelper dbHelper1 = new DBHelper(this, "quizDB", 2);
-            SQLiteDatabase quizDB = dbHelper1.getWritableDatabase();
-
-            // create ContentValues Object
-            ContentValues questionsLog = new ContentValues();
-            ContentValues testsLog = new ContentValues();
 
 
-            // -------------------------------------------------------------------------------------
-            // able to move to DBHelp class
-            // -------------------------------------------------------------------------------------
-            // insert the value to questionsLog
+            // insert data to database
             for (int i = 0; i < numOfQuestion; i++) {
-                questionsLog.put("question", (questionItems.get(i).getQuestion() + ""));
-                questionsLog.put("yourAnswer", (yourAnswer[i] + ""));
-                questionsLog.put("isCorrect", (isCorrect[i] + ""));
-                quizDB.insert("QuestionsLog", null, questionsLog);
+                String question = (questionItems.get(i).getQuestion());
+                dbHelper1.addQuestionsRecord(question, yourAnswer[i], isCorrect[i]);
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String date = sdf.format(new Date());
-            testsLog.put("testDate", date);
-            sdf = new SimpleDateFormat("HH:mm:ss");
-            date = sdf.format(new Date());
-            testsLog.put("testTime", date + "");
-            testsLog.put("duration", elapsedTime + "");
-            testsLog.put("correctCount", correct + "");
-            quizDB.insert("TestsLog", null, testsLog);
-            // ---------------------------------------------------------------------------------
-
-
+            dbHelper1.addTestsLogRecord(elapsedTime, correct);
 
             // create a intent to a new activity
             Intent intent = new Intent(this, QuizFinish.class);

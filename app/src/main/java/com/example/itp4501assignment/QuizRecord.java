@@ -22,15 +22,15 @@ public class QuizRecord extends AppCompatActivity {
     DBHelper dbHelper;
     SQLiteDatabase db;
     ArrayList<String> testNo, testDate, testTime, duration, correctCount;
-    CustomAdapter customAdapter;
+    TestsLogAdapter testsLogAdapter;
     RecyclerView recyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_record);
         recyclerView = findViewById(R.id.recyclerViewTestsLog);
-        tvRecord = findViewById(R.id.tvRecord);
         btnClear = findViewById(R.id.btnClear);
 
         dbHelper = new DBHelper(this, "quizDB", 2);
@@ -41,29 +41,14 @@ public class QuizRecord extends AppCompatActivity {
         duration = new ArrayList<>();
         correctCount = new ArrayList<>();
 
-        storeDataInArrays();
-        customAdapter = new CustomAdapter(this, testNo, testDate, testTime, duration, correctCount);
-        recyclerView.setAdapter(customAdapter);
+        storeTestsLogDataInArrays();
+        testsLogAdapter = new TestsLogAdapter(this, testNo, testDate, testTime, duration, correctCount);
+        recyclerView.setAdapter(testsLogAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void showRecord() {
-        System.out.println("dataStr" + dataStr);
-        String sql = "SELECT * FROM TestsLog";
-        Cursor cursor = db.rawQuery(sql, null);
-        while (cursor.moveToNext()) {
-                int testNo = cursor.getInt(cursor.getColumnIndex("testNo"));
-                String testDate = cursor.getString(cursor.getColumnIndex("testDate"));
-                String testTime = cursor.getString(cursor.getColumnIndex("testTime"));
-                double duration = cursor.getDouble(cursor.getColumnIndex("duration"));
-                int correctCount = cursor.getInt(cursor.getColumnIndex("correctCount"));
-                dataStr += String.format("%d %-12s %-9s %.2f %d\n", testNo, testDate, testTime, duration, correctCount);
-        }
-        tvRecord.setText(dataStr);
-    }
-
-    private void storeDataInArrays() {
-        Cursor cursor = dbHelper.readAllData();
+    private void storeTestsLogDataInArrays() {
+        Cursor cursor = dbHelper.readTestsLogData();
         System.out.println(cursor);
         if (cursor.getCount() == 0) {
             Toast.makeText(this, "No data", Toast.LENGTH_LONG).show();
@@ -76,12 +61,10 @@ public class QuizRecord extends AppCompatActivity {
                 correctCount.add(cursor.getString(cursor.getColumnIndex("correctCount")));
             }
         }
-
-
     }
 
     public void onClickClearRecord(View view) {
         deleteDatabase("quizDB");
-        showRecord();
+        recreate();
     }
 }

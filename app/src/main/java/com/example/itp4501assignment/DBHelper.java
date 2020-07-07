@@ -1,5 +1,6 @@
 package com.example.itp4501assignment;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DBHelper extends SQLiteOpenHelper {
     // variable dictionary
@@ -40,7 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
         System.out.println("Update the database");
     }
 
-    public Cursor readAllData() {
+    public Cursor readTestsLogData() {
         String sql = "SELECT * FROM TestsLog";
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -51,5 +55,30 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         System.out.println("DBH:     " + cursor);
         return cursor;
+    }
+
+
+    public void addTestsLogRecord(double elapsedTime, int correct) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues testsLog = new ContentValues();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date());
+        testsLog.put("testDate", date);
+        sdf = new SimpleDateFormat("HH:mm:ss");
+        date = sdf.format(new Date());
+        testsLog.put("testTime", date + "");
+        testsLog.put("duration", elapsedTime + "");
+        testsLog.put("correctCount", correct + "");
+        db.insert("TestsLog", null, testsLog);
+    }
+
+    public void addQuestionsRecord(String question, int yourAnswer, int isCorrect) {
+        ContentValues questionsLog = new ContentValues();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        questionsLog.put("question", question + "");
+        questionsLog.put("yourAnswer", (yourAnswer + ""));
+        questionsLog.put("isCorrect", (isCorrect + ""));
+        db.insert("QuestionsLog", null, questionsLog);
     }
 }

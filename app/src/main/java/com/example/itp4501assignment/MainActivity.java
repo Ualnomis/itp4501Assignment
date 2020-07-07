@@ -8,21 +8,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnDownloadFinishListener {
+
+    String json;
+    MyAsyncTask task=null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
     public void onClick(View v) {
         Intent intent;
+
         switch (v.getId()) {
             case R.id.btnStart:
                 System.out.println("Start the quiz");
-                intent = new Intent(this, QuizActivity.class);
-                startActivity(intent);
+
+                task=new MyAsyncTask();
+                new MyAsyncTask(this).execute();
+
                 break;
 
             case R.id.btnRecord:
@@ -31,4 +37,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    @Override
+    public void updateDownloadResult(String result) {
+        Intent intent;
+        intent = new Intent(this, QuizActivity.class);
+        intent.putExtra("json", result);
+        startActivity(intent);
+    }
+
+
 }

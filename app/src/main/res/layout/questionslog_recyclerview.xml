@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:id="@+id/testsLogView"
-    >
-
+    android:id="@+id/questionsLogView">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -19,55 +18,51 @@
             android:padding="12dp">
 
             <TextView
-                android:id="@+id/tvTestNo"
+                android:id="@+id/tvQuestionNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test No"
+                android:text="Question No"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvTestDate"
+                app:layout_constraintEnd_toStartOf="@+id/tvQuestion"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvTestDate"
+                android:id="@+id/tvQuestion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test Date"
+                android:text="Question"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvTestTime"
-                app:layout_constraintStart_toEndOf="@+id/tvTestNo"
+                app:layout_constraintEnd_toStartOf="@+id/tvYourAnswer"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tvQuestionNo"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvTestTime"
+                android:id="@+id/tvYourAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test Time"
+                android:text="Your Answer"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvDuration"
-                app:layout_constraintStart_toEndOf="@+id/tvTestDate"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toStartOf="@+id/tvIsCorrect"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tvQuestion"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.6" />
 
             <TextView
-                android:id="@+id/tvDuration"
+                android:id="@+id/tvIsCorrect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Duration"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvCorrectCount"
-                app:layout_constraintStart_toEndOf="@+id/tvTestTime"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvCorrectCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CorrectCount"
+                android:text="isCorrect?"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvDuration"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tvYourAnswer"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
