@@ -35,7 +35,9 @@ public class ChartActivity extends AppCompatActivity {
         datas = new ArrayList<>();
 
         loadTestsLogDataToChart();
-        barChart.setData(datas,new int[]{Color.parseColor("#6FC5F4")},"testNo","correctCount");
+        String xAxisUnitName = "Test No";
+        String yAxisUnitName = "Correct";
+        barChart.setData(datas,new int[]{Color.parseColor("#6FC5F4")}, xAxisUnitName, yAxisUnitName);
         barChart.startAnimation();
     }
 
