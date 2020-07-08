@@ -15,7 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // variable dictionary
     String sql;
     private static int VERSION = 1;
-
+    long testNo;
     public DBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -32,10 +32,13 @@ public class DBHelper extends SQLiteOpenHelper {
     // use to create the table when the table not exist in database
     @Override
     public void onCreate(SQLiteDatabase db) {
-        sql = "CREATE TABLE QuestionsLog(questionNo INTEGER PRIMARY KEY AUTOINCREMENT, question text, yourAnswer int, isCorrect INTEGER)";
-        db.execSQL(sql);
         sql = "CREATE TABLE TestsLog(testNo INTEGER PRIMARY KEY AUTOINCREMENT, testDate text, testTime text, duration real, correctCount int)";
         db.execSQL(sql);
+
+        sql = "CREATE TABLE QuestionsLog(questionNo INTEGER PRIMARY KEY AUTOINCREMENT, question text, yourAnswer int, isCorrect INTEGER, testNo INTEGER," +
+                "FOREIGN KEY (testNo) REFERENCES TestsLog(testNo));";
+        db.execSQL(sql);
+
     }
 
     @Override
@@ -64,20 +67,32 @@ public class DBHelper extends SQLiteOpenHelper {
         String date = sdf.format(new Date());
         testsLog.put("testDate", date);
         sdf = new SimpleDateFormat("HH:mm:ss");
-        date = sdf.format(new Date());
-        testsLog.put("testTime", date + "");
+        String time = sdf.format(new Date());
+        testsLog.put("testTime", time + "");
         testsLog.put("duration", elapsedTime + "");
         testsLog.put("correctCount", correct + "");
-        db.insert("TestsLog", null, testsLog);
+        testNo = db.insert("TestsLog", null, testsLog);
     }
 
     public void addQuestionsRecord(String question, int yourAnswer, int isCorrect) {
         ContentValues questionsLog = new ContentValues();
         SQLiteDatabase db = this.getReadableDatabase();
-
         questionsLog.put("question", question + "");
         questionsLog.put("yourAnswer", (yourAnswer + ""));
         questionsLog.put("isCorrect", (isCorrect + ""));
+        questionsLog.put("testNo", testNo + "");
         db.insert("QuestionsLog", null, questionsLog);
+
+    }
+
+    public Cursor readQuestionsLogData(int testNo) {
+        String sql = "SELECT * FROM QuestionsLog WHERE testNo = " + testNo;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(sql, null);
+        }
+        return cursor;
     }
 }

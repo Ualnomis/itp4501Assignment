@@ -1,46 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bgapp"
+    android:orientation="vertical"
     tools:context=".activity.QuizActivity">
-
 
     <TextView
         android:id="@+id/tvCorrect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Correct: 0 / x"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.081" />
+                    android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        />
 
     <TextView
         android:id="@+id/tvNoOfQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Question 1 / x"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.035" />
+                    android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_gravity="center"
+        />
 
-    <TextView
-        android:id="@+id/tvQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/question"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.301" />
+    <LinearLayout
+        android:layout_width="329dp"
+        android:layout_height="111dp"
+        android:background="@drawable/bgquestion"
+        android:orientation="vertical"
+                    android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            android:text="@string/question"
+            android:textColor="#332FA2"
+            android:textSize="15sp"
+            android:layout_width="220dp"
+            android:lineSpacingExtra="6dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
 
     <RadioGroup
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,10 +59,13 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:layout_marginTop="40dp"
         >
         <RadioButton
             android:id="@+id/answer1"
             android:text="Loading Option 1"
+                        android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -60,29 +73,29 @@
             android:id="@+id/answer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="Loading Option 2" />
         <RadioButton
             android:id="@+id/answer3"
+                        android:textColor="@color/white"
             android:text="Loading Option 3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <RadioButton
             android:id="@+id/answer4"
             android:text="Loading Option 4"
+                        android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </RadioGroup>
 
     <Button
+        android:layout_marginTop="40dp"
         android:onClick="onNextClick"
         android:id="@+id/btnNext"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.664" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:background="@drawable/bgbtn" />
+</LinearLayout>

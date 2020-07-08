@@ -22,10 +22,24 @@ public class QuestionItem {
 
         answerList.add(correct);
         // generate the random number from 1 to 500
-        Random random = new Random();
-        for (int i = 0; i < 3; i++) {
-            answerList.add(random.nextInt(500 - 1 + 1) + 1);
+//        Random random = new Random();
+//        for (int i = 0; i < 3; i++) {
+//            answerList.add(random.nextInt((correct + 4) - (correct - 4) + 1) + (correct - 4));
+//        }
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i= 1; i<(correct + 4); i++) {
+            if (i != correct) {
+                list.add(new Integer(i));
+            }
         }
+        Collections.shuffle(list);
+        for (int i=0; i<3; i++) {
+            System.out.println(list.get(i));
+            answerList.add(list.get(i));
+        }
+
+
         Collections.shuffle(answerList);
         answerList.toArray(answerArray);
         this.answer1 = answerArray[0];

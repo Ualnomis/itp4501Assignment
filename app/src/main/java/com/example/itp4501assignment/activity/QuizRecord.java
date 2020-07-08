@@ -9,10 +9,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.itp4501assignment.animation.MyButtonInterpolator;
 import com.example.itp4501assignment.database.DBHelper;
 import com.example.itp4501assignment.R;
 import com.example.itp4501assignment.recyclerViewAdapter.TestsLogAdapter;
@@ -69,11 +72,21 @@ public class QuizRecord extends AppCompatActivity {
     }
 
     public void onClickClearRecord(View view) {
+        Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.image_click);
+        MyButtonInterpolator interpolator = new MyButtonInterpolator(0.2, 10);
+        myAnim.setInterpolator(interpolator);
+        view.startAnimation(myAnim);
+
         deleteDatabase("quizDB");
         recreate();
     }
 
     public void onClickShowChart(View view) {
+        Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.image_click);
+        MyButtonInterpolator interpolator = new MyButtonInterpolator(0.2, 10);
+        myAnim.setInterpolator(interpolator);
+        view.startAnimation(myAnim);
+
         Intent intent = new Intent(this, ChartActivity.class);
         startActivity(intent);
     }

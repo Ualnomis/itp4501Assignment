@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.itp4501assignment.animation.MyButtonInterpolator;
 import com.example.itp4501assignment.database.DBHelper;
 import com.example.itp4501assignment.asyncTask.MyAsyncTask;
 import com.example.itp4501assignment.asyncTask.OnDownloadFinishListener;
@@ -144,6 +148,11 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
 
     // action when btnNext click
     public void onNextClick(View v) {
+        Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.image_click);
+        MyButtonInterpolator interpolator = new MyButtonInterpolator(0.2, 10);
+        myAnim.setInterpolator(interpolator);
+        v.startAnimation(myAnim);
+
         if (answer1.isChecked()) {
             if (questionItems.get(currentQuestion).getAnswer1() == questionItems.get(currentQuestion).getCorrect()) {
                 correct++;

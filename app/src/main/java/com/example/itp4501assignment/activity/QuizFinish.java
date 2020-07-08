@@ -9,18 +9,26 @@ import com.example.itp4501assignment.R;
 
 public class QuizFinish extends AppCompatActivity {
 
-    private TextView tvResult;
+    private TextView tvCorrect, tvWrong, tvTotalPlayTime, tvAvgPlayTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_finish);
-        tvResult = findViewById(R.id.tvResult);
+        tvCorrect = findViewById(R.id.tvCorrect);
+        tvWrong = findViewById(R.id.tvWrong);
+        tvTotalPlayTime = findViewById(R.id.tvTotalPlayTime);
+        tvAvgPlayTime = findViewById(R.id.tvAvgPlayTime);
+
+
         int correct = getIntent().getIntExtra("correct", 0);
 //        String correct = getIntent().getStringExtra("correct");
         int wrong = getIntent().getIntExtra("wrong", 0);
         double playTime = getIntent().getDoubleExtra("playTime", 0);
         double averageTime = playTime / 5;
-        tvResult.setText("Correct: " + correct + "\nWrong: " + wrong + "\nTotal Play Time: " + playTime + " second" + "\nAverage Play Time: " + averageTime + " second");
+        tvCorrect.setText("Correct: " + correct);
+        tvWrong.setText("Wrong: " + wrong);
+        tvTotalPlayTime.setText("Total Play Time: " + playTime + " second");
+        tvAvgPlayTime.setText("Average Play Time: " + averageTime + " second");
     }
 
 

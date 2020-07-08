@@ -196,21 +196,6 @@ public class BarChart extends View {
         setmMaxYValue(mMaxYValue);
     }
 
-    /**
-     * 计算出Y轴最大值
-     *
-     * @return
-     */
-    private float calculateMax(List<BarChartEntity> list) {
-        float start = list.get(0).getSum();
-        for (BarChartEntity entity : list) {
-            if (entity.getSum() > start) {
-                start = entity.getSum();
-            }
-        }
-        return start;
-    }
-
     // set the Max Y axis Value
     private void setmMaxYValue(float mMaxYValue) {
         mMaxYDivisionValue = (float) (mMaxYValue);

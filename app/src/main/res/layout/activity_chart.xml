@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bgapp"
     tools:context=".activity.ChartActivity">
 
     <com.example.itp4501assignment.widget.BarChart
