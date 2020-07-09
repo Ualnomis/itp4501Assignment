@@ -44,13 +44,13 @@ public class TestsLogAdapter extends RecyclerView.Adapter<TestsLogAdapter.MyView
         holder.tvTestNo.setText(String.valueOf(testNo.get(position)));
         holder.tvTestDate.setText(String.valueOf(testDate.get(position)));
         holder.tvTestTime.setText(String.valueOf(testTime.get(position)));
-        holder.tvDuration.setText(String.valueOf(duration.get(position)));
-        holder.tvCorrectCount.setText(String.valueOf(correctCount.get(position)));
+        holder.tvDuration.setText(String.valueOf(duration.get(position)) + "s");
+        holder.tvCorrectCount.setText("Correct: " + String.valueOf(correctCount.get(position)));
         holder.testsLogLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ViewQuizDetail.class);
-                intent.putExtra("testNo", String.valueOf(testNo.get(position)));
+                intent.putExtra("testNo", Integer.valueOf(testNo.get(position)));
                 context.startActivity(intent);
             }
         });
@@ -75,4 +75,6 @@ public class TestsLogAdapter extends RecyclerView.Adapter<TestsLogAdapter.MyView
             testsLogLayout = itemView.findViewById(R.id.testsLogView);
         }
     }
+
+
 }

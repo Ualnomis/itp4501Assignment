@@ -29,7 +29,7 @@ public class QuizRecord extends AppCompatActivity {
     Button btnClear;
     DBHelper dbHelper;
     SQLiteDatabase db;
-    ArrayList<String> testNo, testDate, testTime, duration, correctCount;
+    private ArrayList<String> testNo, testDate, testTime, duration, correctCount;
     TestsLogAdapter testsLogAdapter;
     RecyclerView recyclerView;
 
@@ -77,8 +77,17 @@ public class QuizRecord extends AppCompatActivity {
         myAnim.setInterpolator(interpolator);
         view.startAnimation(myAnim);
 
+        testNo.clear();
+        testDate.clear();
+        testTime.clear();
+        duration.clear();
+        correctCount.clear();
+
         deleteDatabase("quizDB");
-        recreate();
+
+        testsLogAdapter = new TestsLogAdapter(this, testNo, testDate, testTime, duration, correctCount);
+        recyclerView.setAdapter(testsLogAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     public void onClickShowChart(View view) {

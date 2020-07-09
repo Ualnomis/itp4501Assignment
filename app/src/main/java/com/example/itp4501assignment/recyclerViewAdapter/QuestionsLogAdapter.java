@@ -41,10 +41,15 @@ public class QuestionsLogAdapter extends RecyclerView.Adapter<QuestionsLogAdapte
 
     @Override
     public void onBindViewHolder(@NonNull QuestionsLogAdapter.MyViewHolder holder, final int position) {
-        holder.tvQuestionNo.setText(String.valueOf(questionNo.get(position)));
+        holder.tvQuestionNo.setText("");
         holder.tvQuestion.setText(String.valueOf(question.get(position)));
         holder.tvYourAnswer.setText(String.valueOf(yourAnswer.get(position)));
-        holder.tvIsCorrect.setText(String.valueOf(isCorrect.get(position)));
+        if (String.valueOf(isCorrect.get(position)).equals("1")) {
+            holder.tvIsCorrect.setText("Correct");
+        } else {
+            holder.tvIsCorrect.setText("Wrong");
+        }
+
     }
 
     @Override

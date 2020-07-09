@@ -218,11 +218,13 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
 
 
             // insert data to database
+            dbHelper1.addTestsLogRecord(elapsedTime, correct);
+
             for (int i = 0; i < numOfQuestion; i++) {
                 String question = (questionItems.get(i).getQuestion());
                 dbHelper1.addQuestionsRecord(question, yourAnswer[i], isCorrect[i]);
             }
-            dbHelper1.addTestsLogRecord(elapsedTime, correct);
+
 
             // create a intent to a new activity
             Intent intent = new Intent(this, QuizFinish.class);

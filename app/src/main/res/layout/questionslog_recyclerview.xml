@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:background="@drawable/bgapp"
     android:id="@+id/questionsLogView">
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -25,10 +25,11 @@
                 android:text="Question No"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvQuestion"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.48000002" />
 
             <TextView
                 android:id="@+id/tvQuestion"

@@ -73,6 +73,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/restart2"
             android:layout_marginRight="60dp"
+            android:onClick="onClickReplay"
             />
 
         <Button
@@ -80,6 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/home"
+            android:onClick="onClickHome"
             />
 
     </LinearLayout>

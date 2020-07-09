@@ -35,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sql = "CREATE TABLE TestsLog(testNo INTEGER PRIMARY KEY AUTOINCREMENT, testDate text, testTime text, duration real, correctCount int)";
         db.execSQL(sql);
 
-        sql = "CREATE TABLE QuestionsLog(questionNo INTEGER PRIMARY KEY AUTOINCREMENT, question text, yourAnswer int, isCorrect INTEGER, testNo INTEGER," +
+        sql = "CREATE TABLE QuestionsLog(questionNo INTEGER PRIMARY KEY AUTOINCREMENT, question text, yourAnswer int, isCorrect INTEGER, testNo int," +
                 "FOREIGN KEY (testNo) REFERENCES TestsLog(testNo));";
         db.execSQL(sql);
 
@@ -71,7 +71,9 @@ public class DBHelper extends SQLiteOpenHelper {
         testsLog.put("testTime", time + "");
         testsLog.put("duration", elapsedTime + "");
         testsLog.put("correctCount", correct + "");
-        testNo = db.insert("TestsLog", null, testsLog);
+
+        testNo = db.insert("TestsLog", "", testsLog);
+        System.out.println("test ADdd questio n" + testNo);
     }
 
     public void addQuestionsRecord(String question, int yourAnswer, int isCorrect) {
@@ -81,18 +83,16 @@ public class DBHelper extends SQLiteOpenHelper {
         questionsLog.put("yourAnswer", (yourAnswer + ""));
         questionsLog.put("isCorrect", (isCorrect + ""));
         questionsLog.put("testNo", testNo + "");
+        System.out.println("qestion ADdd questio n" + testNo);
         db.insert("QuestionsLog", null, questionsLog);
 
     }
 
     public Cursor readQuestionsLogData(int testNo) {
-        String sql = "SELECT * FROM QuestionsLog WHERE testNo = " + testNo;
         SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = null;
-        if (db != null) {
-            cursor = db.rawQuery(sql, null);
-        }
+        String[] column = {"questionNo", "question", "yourAnswer", "isCorrect"};
+        String[] args = {testNo + ""};
+        Cursor cursor= db.query("QuestionsLog", column, "testNo = ?", args, null, null, null, null);
         return cursor;
     }
 }

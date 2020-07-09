@@ -5,10 +5,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bgapp"
     android:id="@+id/testsLogView"
     >
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -26,6 +24,7 @@
                 android:text="Test No"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvTestDate"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
