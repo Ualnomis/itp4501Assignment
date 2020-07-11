@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
     int[] isCorrect;
     int[] yourAnswer;
     String json1;
+    ImageView[] ivQ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,13 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         // set the number of answer need to save
         yourAnswer = new int[numOfQuestion];
 
+        ivQ = new ImageView[numOfQuestion];
+        ivQ[0] = findViewById(R.id.ivQ1);
+        ivQ[1] = findViewById(R.id.ivQ2);
+        ivQ[2] = findViewById(R.id.ivQ3);
+        ivQ[3] = findViewById(R.id.ivQ4);
+        ivQ[4] = findViewById(R.id.ivQ5);
+
 //        // disable the button before the question is load
 //        btnNext.setEnabled(false);
 //        // set the button Next to Loading before the question is load
@@ -83,6 +92,8 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         // use ASyncTask to get the json from url
         // task = new MyAsyncTask();
         // new MyAsyncTask(this).execute();
+
+
 
         // get the json from intent
         Intent intent = getIntent();
@@ -169,9 +180,11 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
 
             if (questionItems.get(currentQuestion).getAnswer1() == questionItems.get(currentQuestion).getCorrect()) { // if answer 1 is correct
                 correct++;
+                ivQ[currentQuestion].setImageResource(R.drawable.tick);
                 isCorrect[currentQuestion] = 1;
             } else { // if answer 1 is wrong
                 wrong++;
+                ivQ[currentQuestion].setImageResource(R.drawable.cross);
                 isCorrect[currentQuestion] = 0;
             }
             yourAnswer[currentQuestion] = questionItems.get(currentQuestion).getAnswer1();
@@ -180,9 +193,11 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         } else if (answer2.isChecked()) { // check if answer 2 is checked
             if (questionItems.get(currentQuestion).getAnswer2() == questionItems.get(currentQuestion).getCorrect()) { // if answer 2 is correct
                 correct++;
+                ivQ[currentQuestion].setImageResource(R.drawable.tick);
                 isCorrect[currentQuestion] = 1;
             } else { // if answer 2 is wrong
                 wrong++;
+                ivQ[currentQuestion].setImageResource(R.drawable.cross);
                 isCorrect[currentQuestion] = 0;
             }
             yourAnswer[currentQuestion] = questionItems.get(currentQuestion).getAnswer2();
@@ -191,9 +206,11 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         } else if (answer3.isChecked()) { // check if answer 3 is checked
             if (questionItems.get(currentQuestion).getAnswer3() == questionItems.get(currentQuestion).getCorrect()) { // if answer 3 is correct
                 correct++;
+                ivQ[currentQuestion].setImageResource(R.drawable.tick);
                 isCorrect[currentQuestion] = 1;
             } else { // if answer 3 is wrong
                 wrong++;
+                ivQ[currentQuestion].setImageResource(R.drawable.cross);
                 isCorrect[currentQuestion] = 0;
             }
             yourAnswer[currentQuestion] = questionItems.get(currentQuestion).getAnswer3();
@@ -202,9 +219,11 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         } else if (answer4.isChecked()) { // check if answer 4 is checked
             if (questionItems.get(currentQuestion).getAnswer4() == questionItems.get(currentQuestion).getCorrect()) { // if answer 4 is correct
                 correct++;
+                ivQ[currentQuestion].setImageResource(R.drawable.tick);
                 isCorrect[currentQuestion] = 1;
             } else { // if answer 4 is wrong
                 wrong++;
+                ivQ[currentQuestion].setImageResource(R.drawable.cross);
                 isCorrect[currentQuestion] = 0;
             }
             yourAnswer[currentQuestion] = questionItems.get(currentQuestion).getAnswer4();

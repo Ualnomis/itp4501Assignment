@@ -43,13 +43,12 @@ public class QuestionsLogAdapter extends RecyclerView.Adapter<QuestionsLogAdapte
     // set the record data to TextView
     @Override
     public void onBindViewHolder(@NonNull QuestionsLogAdapter.MyViewHolder holder, final int position) {
-        holder.tvQuestionNo.setText("");
-        holder.tvQuestion.setText(String.valueOf(question.get(position)));
-        holder.tvYourAnswer.setText(String.valueOf(yourAnswer.get(position)));
+        holder.tvQuestion.setText("Question: " + String.valueOf(question.get(position)));
+        holder.tvYourAnswer.setText("Your Answer: "+String.valueOf(yourAnswer.get(position)));
         if (String.valueOf(isCorrect.get(position)).equals("1")) {
-            holder.tvIsCorrect.setText("Correct");
+            holder.tvIsCorrect.setText("isCorrect? "+"Correct");
         } else {
-            holder.tvIsCorrect.setText("Wrong");
+            holder.tvIsCorrect.setText("isCorrect? "+"Wrong");
         }
 
     }
@@ -67,7 +66,7 @@ public class QuestionsLogAdapter extends RecyclerView.Adapter<QuestionsLogAdapte
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvQuestionNo = itemView.findViewById(R.id.tvQuestionNo);
+//            tvQuestionNo = itemView.findViewById(R.id.tvQuestionNo);
             tvQuestion = itemView.findViewById(R.id.tvQuestion);
             tvYourAnswer = itemView.findViewById(R.id.tvYourAnswer);
             tvIsCorrect = itemView.findViewById(R.id.tvIsCorrect);

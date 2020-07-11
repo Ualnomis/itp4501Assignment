@@ -1,6 +1,7 @@
 package com.example.itp4501assignment.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,7 +36,7 @@ public class QuizRecord extends AppCompatActivity {
     private ArrayList<String> testNo, testDate, testTime, duration, correctCount; // create ArrayList to store the database record
     TestsLogAdapter testsLogAdapter; // recyclerView Adapter use to bind the data from TestsLog table from database
     RecyclerView recyclerView; // recycler view reference
-
+    LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,10 @@ public class QuizRecord extends AppCompatActivity {
         recyclerView.setAdapter(testsLogAdapter);
         // display the data to recycler view
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                mLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     // store testsLog data in arraylist

@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context=".activity.QuizActivity">
 
+
     <TextView
         android:id="@+id/tvCorrect"
         android:layout_width="wrap_content"
@@ -51,7 +52,44 @@
             android:textAlignment="center"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        >
+        <ImageView
+            android:id="@+id/ivQ1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:id="@+id/ivQ2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:id="@+id/ivQ3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:id="@+id/ivQ4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:id="@+id/ivQ5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+
+    </LinearLayout>
     <RadioGroup
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

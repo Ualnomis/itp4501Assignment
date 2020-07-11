@@ -1,6 +1,7 @@
 package com.example.itp4501assignment.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ public class ViewQuizDetail extends AppCompatActivity {
     DBHelper dbHelper;
     ArrayList<String> questionNo, question, yourAnswer, isCorrect;
     private int testNo;
+    LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
     QuestionsLogAdapter questionsLogAdapter;
 
     @Override
@@ -47,6 +49,9 @@ public class ViewQuizDetail extends AppCompatActivity {
         questionsLogAdapter = new QuestionsLogAdapter(this, questionNo, question, yourAnswer, isCorrect);
         recyclerView.setAdapter(questionsLogAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                mLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     private void storeQuestionsLogInArrays() {
