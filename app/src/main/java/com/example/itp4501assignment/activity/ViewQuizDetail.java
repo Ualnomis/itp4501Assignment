@@ -16,8 +16,13 @@ import com.example.itp4501assignment.recyclerViewAdapter.TestsLogAdapter;
 
 import java.util.ArrayList;
 
+/*
+ * used to display the detail information of each test
+ * display questions, answers and your corresponding answers and is correct or not
+ */
 public class ViewQuizDetail extends AppCompatActivity {
 
+    // variable
     RecyclerView recyclerView;
     DBHelper dbHelper;
     ArrayList<String> questionNo, question, yourAnswer, isCorrect;

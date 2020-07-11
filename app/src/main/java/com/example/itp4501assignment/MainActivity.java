@@ -14,6 +14,10 @@ import com.example.itp4501assignment.animation.MyButtonInterpolator;
 import com.example.itp4501assignment.asyncTask.MyAsyncTask;
 import com.example.itp4501assignment.asyncTask.OnDownloadFinishListener;
 
+/*
+ * Home page of the app
+ * used to go to QuizActivity and QuizRecord
+ */
 public class MainActivity extends AppCompatActivity implements OnDownloadFinishListener {
 
     String json;
@@ -38,23 +42,31 @@ public class MainActivity extends AppCompatActivity implements OnDownloadFinishL
                 System.out.println("Start the quiz");
                 // load json
                 task=new MyAsyncTask();
+                // execute updateDownloadResult(String result);
                 new MyAsyncTask(this).execute();
 
                 break;
 
             case R.id.btnRecord:
-
+                // set intent to QuizRecord
                 intent = new Intent(this, QuizRecord.class);
+                // start intent
                 startActivity(intent);
                 break;
         }
     }
 
+
     @Override
+    // get the result that the json from download url
     public void updateDownloadResult(String result) {
+
         Intent intent;
+        // intent to QuizActivity
         intent = new Intent(this, QuizActivity.class);
+        // put json to intent
         intent.putExtra("json", result);
+        // start intent to QuizActivity
         startActivity(intent);
     }
 

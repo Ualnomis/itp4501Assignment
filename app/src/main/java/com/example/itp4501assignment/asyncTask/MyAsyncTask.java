@@ -8,7 +8,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+/*
+ * Download ten IQ Test questions from a server
+ */
 public class MyAsyncTask extends AsyncTask<String, Integer, String> {
     private OnDownloadFinishListener listener;
     private final String TAG =" MyAsyncTask";

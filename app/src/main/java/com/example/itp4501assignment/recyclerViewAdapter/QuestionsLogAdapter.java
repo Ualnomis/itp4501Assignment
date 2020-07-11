@@ -23,6 +23,7 @@ public class QuestionsLogAdapter extends RecyclerView.Adapter<QuestionsLogAdapte
     private Context context; // set Context
     private ArrayList<String> questionNo, question, yourAnswer, isCorrect; // arrayList of the testsLog table column
 
+    // constructor
     public QuestionsLogAdapter(Context context, ArrayList questionNo, ArrayList question, ArrayList yourAnswer, ArrayList isCorrect) {
         this.context = context;
         this.questionNo = questionNo;
@@ -39,6 +40,7 @@ public class QuestionsLogAdapter extends RecyclerView.Adapter<QuestionsLogAdapte
         return new MyViewHolder(view);
     }
 
+    // set the record data to TextView
     @Override
     public void onBindViewHolder(@NonNull QuestionsLogAdapter.MyViewHolder holder, final int position) {
         holder.tvQuestionNo.setText("");
@@ -53,9 +55,11 @@ public class QuestionsLogAdapter extends RecyclerView.Adapter<QuestionsLogAdapte
     }
 
     @Override
+    // get how many question
     public int getItemCount() {
         return questionNo.size();
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvQuestionNo, tvQuestion, tvYourAnswer, tvIsCorrect;

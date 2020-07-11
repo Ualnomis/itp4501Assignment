@@ -40,6 +40,7 @@ public class TestsLogAdapter extends RecyclerView.Adapter<TestsLogAdapter.MyView
     }
 
     @Override
+    // put record data to TextView
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         holder.tvTestNo.setText(String.valueOf(testNo.get(position)));
         holder.tvTestDate.setText(String.valueOf(testDate.get(position)));
@@ -57,6 +58,7 @@ public class TestsLogAdapter extends RecyclerView.Adapter<TestsLogAdapter.MyView
     }
 
     @Override
+    // get how many record in TestsLog
     public int getItemCount() {
         return testNo.size();
     }

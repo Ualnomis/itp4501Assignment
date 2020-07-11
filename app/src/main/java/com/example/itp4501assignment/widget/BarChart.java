@@ -37,95 +37,58 @@ import java.util.List;
  */
 public class BarChart extends View {
     private Context mContext;
-    /**
-     * 视图的宽和高  刻度区域的最大值
-     */
+
+    // size of the bar chart
     private int mTotalWidth, mTotalHeight, mMaxHeight;
     private int mPaddingRight, mPaddingBottom, mPaddingTop;
-    /**
-     * 柱形图的颜色集合
-     */
-    private int[] mBarColors;
+
+    private int[] mBarColors; // color of the bar chart
     private int mBottomMargin;
     private int mTopMargin;
     private int mRightMargin;
     private int mLeftMargin;
-    /**
-     * 画笔 轴 刻度 柱子 点击后的柱子 单位
-     */
+
     private Paint mAxisPaint, mTextPaint, mBarPaint, mBorderPaint, mUnitPaint;
     private List<BarChartEntity> mData;
-    /**
-     * item中的Y轴最大值
-     */
-    private float mMaxYValue;
-    /**
-     * Y轴最大的刻度值
-     */
-    private float mMaxYDivisionValue;
-    /**
-     * 柱子的矩形
-     */
+
+    private float mMaxYValue; // max value of y axis
+
+    private float mMaxYDivisionValue; // max value of y axis unit
+
     private Rect mBarRect, mBarRectClick;
-    /**
-     * 绘制的区域
-     */
-    private RectF mDrawArea;
-    /**
-     * 每一个bar的宽度
-     */
-    private int mBarWidth;
-    /**
-     * 每个bar之间的距离
-     */
-    private int mBarSpace;
-    /**
-     * 向右边滑动的距离
-     */
+
+    private RectF mDrawArea; // draw area
+
+    private int mBarWidth; // width of the bar
+
+    private int mBarSpace; // space between two bar
+
     private float mLeftMoving;
-    /**
-     * 左后一次的x坐标
-     */
+
     private float mLastPointX;
-    /**
-     * 当前移动的距离
-     */
+
     private float mMovingThisTime = 0.0f;
-    /**
-     * 右边的最大和最小值
-     */
+
     private int mMaxRight, mMinRight;
-    /**
-     * 下面两个相当于图表的原点
-     */
+
     private float mStartX;
     private int mStartY;
-    /**
-     * 柱形图左边的x轴坐标 和右边的x轴坐标
-     */
+
     private List<Integer> mBarLeftXPoints = new ArrayList<>();
     private List<Integer> mBarRightXPoints = new ArrayList<>();
 
-    /**
-     * 用户点击到了无效位置
-     */
+    // user click the invalid position
     public static final int INVALID_POSITION = -1;
     private GestureDetector mGestureListener;
-    /**
-     * 是否绘制点击效果
-     */
+
     private boolean isDrawBorder;
-    /**
-     * 点击的地方
-     */
-    private int mClickPosition;
+
+    private int mClickPosition; // click position
 
     //滑动速度相关
     private VelocityTracker mVelocityTracker;
     private Scroller mScroller;
-    /**
-     * fling最大速度
-     */
+
     private int mMaxVelocity;
     private String mUnitX;
     private String mUnitY;
@@ -220,7 +183,7 @@ public class BarChart extends View {
 
     }
 
-    //获取滑动范围和指定区域
+
     private void getArea() {
         mMaxRight = (int) (mStartX + (mBarSpace + mBarWidth) * mData.size());
         mMinRight = mTotalWidth - mLeftMargin - mRightMargin;
@@ -234,15 +197,14 @@ public class BarChart extends View {
         if (mData == null || mData.isEmpty()) return;
         getArea();
         checkTheLeftMoving();
-        //绘制刻度线 和 刻度
+        // draw the scale line and unit of yaxis
         drawScaleLine(canvas);
         // set the unit on top of y axis and end of the x axis
         drawUnit(canvas);
-        //调用clipRect()方法后，只会显示被裁剪的区域
         canvas.clipRect(mDrawArea.left, mDrawArea.top, mDrawArea.right, mDrawArea.bottom + mDrawArea.height());
-        // 绘制柱子
+        // draw bar
         drawBar(canvas);
-        // 绘制X轴的text
+        // draw x axis text
         drawXAxisText(canvas);
     }
 
@@ -252,9 +214,6 @@ public class BarChart extends View {
         canvas.drawText(mUnitX, mTotalWidth - mRightMargin - mPaddingRight + 10, mTotalHeight - mBottomMargin / 2, mUnitPaint);
     }
 
-    /**
-     * 检查向左滑动的距离 确保没有画出屏幕
-     */
     private void checkTheLeftMoving() {
         if (mLeftMoving > (mMaxRight - mMinRight)) {
             mLeftMoving = mMaxRight - mMinRight;
@@ -265,7 +224,7 @@ public class BarChart extends View {
     }
 
     private void drawXAxisText(Canvas canvas) {
-        //这里设置 x 轴的字一条最多显示3个，大于三个就换行
+
         for (int i = 0; i < mData.size(); i++) {
             String text = mData.get(i).getxLabel();
             if (text.length() <= 3) {
@@ -307,7 +266,7 @@ public class BarChart extends View {
                 mBarRect.right = mBarRect.left + mBarWidth;
                 canvas.drawRect(mBarRect, mBarPaint);
             } else {
-                int eachHeight = 0;//每一块的高度
+                int eachHeight = 0;
                 mBarRect.left = (int) (mStartX + mBarWidth * i + mBarSpace * (i + 1) - mLeftMoving);
                 mBarRect.right = mBarRect.left + mBarWidth;
                 for (int j = 0; j < mBarColors.length; j++) {
@@ -334,11 +293,7 @@ public class BarChart extends View {
         mBarRectClick.top = mStartY - (int) (mMaxHeight * (mData.get(position).getSum() / mMaxYDivisionValue));
     }
 
-    /**
-     * Y轴上的text (1)当最大值大于1 的时候 将其分成5份 计算每个部分的高度  分成几份可以自己定
-     * （2）当最大值大于0小于1的时候  也是将最大值分成5份
-     * （3）当为0的时候使用默认的值
-     */
+
     private void drawScaleLine(Canvas canvas) {
         float eachHeight = (mMaxHeight / 5);
         float textValue = 0;
@@ -348,7 +303,6 @@ public class BarChart extends View {
                 BigDecimal maxValue = new BigDecimal(mMaxYDivisionValue);
                 BigDecimal fen = new BigDecimal(0.2 * i);
                 String text = null;
-                //因为图表分了5条线，如果能除不进，需要显示小数点不然数据不准确
                 if (mMaxYDivisionValue % 5 != 0) {
                     text = String.valueOf(maxValue.multiply(fen).floatValue());
                 } else {
@@ -391,6 +345,7 @@ public class BarChart extends View {
     }
 
     @Override
+    // calculate the scrool
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
             mMovingThisTime = (mScroller.getCurrX() - mLastPointX);
@@ -400,14 +355,16 @@ public class BarChart extends View {
         }
     }
 
+
     @Override
+    // when user touch the screen
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mLastPointX = event.getX();
-                mScroller.abortAnimation();//终止动画
+                mScroller.abortAnimation();// stop animation
                 initOrResetVelocityTracker();
-                mVelocityTracker.addMovement(event);//将用户的移动添加到跟踪器中。
+                mVelocityTracker.addMovement(event);// put user movement to tracker
                 break;
             case MotionEvent.ACTION_MOVE:
                 float movex = event.getX();

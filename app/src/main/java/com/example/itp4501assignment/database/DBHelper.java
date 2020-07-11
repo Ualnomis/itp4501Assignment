@@ -11,6 +11,9 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/*
+ * implement the database create, insert, update, delete
+ */
 public class DBHelper extends SQLiteOpenHelper {
     // variable dictionary
     String sql;

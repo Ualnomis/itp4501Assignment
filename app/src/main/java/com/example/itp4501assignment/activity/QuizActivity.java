@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.itp4501assignment.animation.MyButtonInterpolator;
 import com.example.itp4501assignment.database.DBHelper;
@@ -27,6 +28,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+/*
+ * used for quiz the json question
+ */
 public class QuizActivity extends AppCompatActivity implements OnDownloadFinishListener {
 
     // variable dictionary
@@ -117,11 +122,16 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         startTime = System.currentTimeMillis();
     }
 
+    // load all question from json
     private void loadAllQuestion(String json) {
+        // create arraylist to store question and answer
         questionItems = new ArrayList<>();
+
+        // try to get data from json
         try {
             JSONObject jsonObject = new JSONObject(json);
             JSONArray questions = jsonObject.getJSONArray("questions");
+            // put the json array to questionItem arraylist
             for (int i = 0; i < questions.length(); i++) {
                 JSONObject question = questions.getJSONObject(i);
 
@@ -130,7 +140,7 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
 
                 questionItems.add(new QuestionItem(questionString, answer));
             }
-        } catch (JSONException e) {
+        } catch (JSONException e) { // throw the error when exception occur
             e.printStackTrace();
         }
     }
@@ -148,65 +158,76 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
 
     // action when btnNext click
     public void onNextClick(View v) {
+        // animation when the button click
         Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.image_click);
         MyButtonInterpolator interpolator = new MyButtonInterpolator(0.2, 10);
         myAnim.setInterpolator(interpolator);
         v.startAnimation(myAnim);
 
-        if (answer1.isChecked()) {
-            if (questionItems.get(currentQuestion).getAnswer1() == questionItems.get(currentQuestion).getCorrect()) {
+        // check the answer
+        if (answer1.isChecked()) { // check if answer 1 is checked
+
+            if (questionItems.get(currentQuestion).getAnswer1() == questionItems.get(currentQuestion).getCorrect()) { // if answer 1 is correct
                 correct++;
                 isCorrect[currentQuestion] = 1;
-
-            } else {
+            } else { // if answer 1 is wrong
                 wrong++;
                 isCorrect[currentQuestion] = 0;
             }
             yourAnswer[currentQuestion] = questionItems.get(currentQuestion).getAnswer1();
+            // update the question only when there are radio button checked
             updateQuestion();
-        } else if (answer2.isChecked()) {
-            if (questionItems.get(currentQuestion).getAnswer2() == questionItems.get(currentQuestion).getCorrect()) {
+        } else if (answer2.isChecked()) { // check if answer 2 is checked
+            if (questionItems.get(currentQuestion).getAnswer2() == questionItems.get(currentQuestion).getCorrect()) { // if answer 2 is correct
                 correct++;
                 isCorrect[currentQuestion] = 1;
-            } else {
+            } else { // if answer 2 is wrong
                 wrong++;
                 isCorrect[currentQuestion] = 0;
             }
             yourAnswer[currentQuestion] = questionItems.get(currentQuestion).getAnswer2();
+            // update the question only when there are radio button checked
             updateQuestion();
-        } else if (answer3.isChecked()) {
-            if (questionItems.get(currentQuestion).getAnswer3() == questionItems.get(currentQuestion).getCorrect()) {
+        } else if (answer3.isChecked()) { // check if answer 3 is checked
+            if (questionItems.get(currentQuestion).getAnswer3() == questionItems.get(currentQuestion).getCorrect()) { // if answer 3 is correct
                 correct++;
                 isCorrect[currentQuestion] = 1;
-            } else {
+            } else { // if answer 3 is wrong
                 wrong++;
                 isCorrect[currentQuestion] = 0;
             }
             yourAnswer[currentQuestion] = questionItems.get(currentQuestion).getAnswer3();
+            // update the question only when there are radio button checked
             updateQuestion();
-        } else if (answer4.isChecked()) {
-            if (questionItems.get(currentQuestion).getAnswer4() == questionItems.get(currentQuestion).getCorrect()) {
+        } else if (answer4.isChecked()) { // check if answer 4 is checked
+            if (questionItems.get(currentQuestion).getAnswer4() == questionItems.get(currentQuestion).getCorrect()) { // if answer 4 is correct
                 correct++;
                 isCorrect[currentQuestion] = 1;
-            } else {
+            } else { // if answer 4 is wrong
                 wrong++;
                 isCorrect[currentQuestion] = 0;
             }
             yourAnswer[currentQuestion] = questionItems.get(currentQuestion).getAnswer4();
-             updateQuestion();
+            // update the question only when there are radio button checked
+            updateQuestion();
+        } else {
+            Toast.makeText(this, "Please select the answer!!!", Toast.LENGTH_LONG).show();
         }
+
     }
 
     // update the question after answer the previous question
     private void updateQuestion() {
-        int size = numOfQuestion - 1;
+        // variable dictionary
+        int size = numOfQuestion - 1; // the max index of the questionItems arraylist
 
-        if (currentQuestion < size) {
+        if (currentQuestion < size) { // if not the last question
             currentQuestion++;
             setQuestionScreen(currentQuestion);
-            if (currentQuestion == size) {
+            if (currentQuestion == size) { // if is the last question
                 btnNext.setText("Finish");
             }
+            unchecked();
         } else {
             // get the finish time
             double finishTime = System.currentTimeMillis();
@@ -220,14 +241,18 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
             // insert data to database
             dbHelper1.addTestsLogRecord(elapsedTime, correct);
 
+            // loop all question
             for (int i = 0; i < numOfQuestion; i++) {
+                // get teh question from questionItem arraylist
                 String question = (questionItems.get(i).getQuestion());
+                // store the data to database
                 dbHelper1.addQuestionsRecord(question, yourAnswer[i], isCorrect[i]);
             }
 
 
             // create a intent to a new activity
             Intent intent = new Intent(this, QuizFinish.class);
+            // put the variable that next intent required
             intent.putExtra("playTime", elapsedTime);
             intent.putExtra("correct", correct);
             intent.putExtra("wrong", wrong);
@@ -236,5 +261,11 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
             startActivity(intent);
             finish();
         }
+    }
+    // uncheck all the radio button
+    public void unchecked()
+    {
+        RadioGroup x=findViewById(R.id.answerGroup);
+        x.clearCheck();
     }
 }

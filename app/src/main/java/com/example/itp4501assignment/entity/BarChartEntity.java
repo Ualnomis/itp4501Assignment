@@ -1,5 +1,8 @@
 package com.example.itp4501assignment.entity;
 
+/*
+ * store the Bar chart X and Y Axis data
+ */
 public class BarChartEntity {
     private String xLabel;
     private Float[] yValue;
