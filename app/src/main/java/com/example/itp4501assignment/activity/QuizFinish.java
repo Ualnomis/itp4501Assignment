@@ -42,7 +42,7 @@ public class QuizFinish extends AppCompatActivity implements OnDownloadFinishLis
         double playTime = getIntent().getDoubleExtra("playTime", 0);
 
         // calculate average time
-        double averageTime = playTime / 5;
+        double averageTime = playTime / QuizActivity.NUMOFQUESTION;
 
         // set all require data to TextView
         tvCorrect.setText("Correct: " + correct);
