@@ -62,9 +62,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-
+    // add TestLogs Record
     public void addTestsLogRecord(double elapsedTime, int correct) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // create ContentValues and put the data to ContentValues
         ContentValues testsLog = new ContentValues();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(new Date());
@@ -75,18 +78,22 @@ public class DBHelper extends SQLiteOpenHelper {
         testsLog.put("duration", elapsedTime + "");
         testsLog.put("correctCount", correct + "");
 
+        // insert ContentValues to table
         testNo = db.insert("TestsLog", "", testsLog);
-        System.out.println("test ADdd questio n" + testNo);
     }
 
     public void addQuestionsRecord(String question, int yourAnswer, int isCorrect) {
+        // get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // create ContentValues and put the data to ContentValues
         ContentValues questionsLog = new ContentValues();
-        SQLiteDatabase db = this.getReadableDatabase();
         questionsLog.put("question", question + "");
         questionsLog.put("yourAnswer", (yourAnswer + ""));
         questionsLog.put("isCorrect", (isCorrect + ""));
         questionsLog.put("testNo", testNo + "");
-        System.out.println("qestion ADdd questio n" + testNo);
+
+        // insert ContentValues to table
         db.insert("QuestionsLog", null, questionsLog);
 
     }
