@@ -26,6 +26,7 @@ public class QuestionItem {
         this.question = question;
         this.correct = correct;
         answerList.add(correct);
+
         // generate the random number from 1 to 500
 //        Random random = new Random();
 //        for (int i = 0; i < 3; i++) {
@@ -47,10 +48,10 @@ public class QuestionItem {
         // shuffle the data in list
         Collections.shuffle(list);
 
-        // select first four item from shuffle list
+        // select first three item from shuffled list
         for (int i=0; i<3; i++) {
             System.out.println(list.get(i));
-            // add the first four item to answerList
+            // add the first three item to answerList
             answerList.add(list.get(i));
         }
 
