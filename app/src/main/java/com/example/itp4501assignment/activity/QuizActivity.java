@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
     int currentQuestion = 0;
     int correct = 0;
     int wrong = 0;
-    int numOfQuestion = 0;
+    public static final int NUMOFQUESTION = 5; // the number of question need to display (will use in BarChart class
     private double startTime = 0;
     MyAsyncTask task = null;
     Button btnNext;
@@ -69,14 +70,12 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
 
 
 
-        // set the number of question need to get
-        numOfQuestion = 5;
         // set the number of correct question need to save
-        isCorrect = new int[numOfQuestion];
+        isCorrect = new int[NUMOFQUESTION];
         // set the number of answer need to save
-        yourAnswer = new int[numOfQuestion];
+        yourAnswer = new int[NUMOFQUESTION];
 
-        ivQ = new ImageView[numOfQuestion];
+        ivQ = new ImageView[NUMOFQUESTION];
         ivQ[0] = findViewById(R.id.ivQ1);
         ivQ[1] = findViewById(R.id.ivQ2);
         ivQ[2] = findViewById(R.id.ivQ3);
@@ -163,8 +162,8 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
         answer2.setText(questionItems.get(number).getAnswer2() + "");
         answer3.setText(questionItems.get(number).getAnswer3() + "");
         answer4.setText(questionItems.get(number).getAnswer4() + "");
-        tvCorrect.setText("Correct: " + correct + " / " + numOfQuestion);
-        tvNoOfQuestion.setText("No of Question: " + (number + 1) + " / " + numOfQuestion);
+        tvCorrect.setText("Correct: " + correct + " / " + NUMOFQUESTION);
+        tvNoOfQuestion.setText("No of Question: " + (number + 1) + " / " + NUMOFQUESTION);
     }
 
     // action when btnNext click
@@ -238,7 +237,7 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
     // update the question after answer the previous question
     private void updateQuestion() {
         // variable dictionary
-        int size = numOfQuestion - 1; // the max index of the questionItems arraylist
+        int size = NUMOFQUESTION - 1; // the max index of the questionItems arraylist
 
         if (currentQuestion < size) { // if not the last question
             currentQuestion++;
@@ -261,7 +260,7 @@ public class QuizActivity extends AppCompatActivity implements OnDownloadFinishL
             dbHelper1.addTestsLogRecord(elapsedTime, correct);
 
             // loop all question
-            for (int i = 0; i < numOfQuestion; i++) {
+            for (int i = 0; i < NUMOFQUESTION; i++) {
                 // get teh question from questionItem arraylist
                 String question = (questionItems.get(i).getQuestion());
                 // store the data to database

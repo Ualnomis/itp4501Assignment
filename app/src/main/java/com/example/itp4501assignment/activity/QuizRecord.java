@@ -83,6 +83,7 @@ public class QuizRecord extends AppCompatActivity {
             Toast.makeText(this, "No data", Toast.LENGTH_LONG).show();
         } else { // if have record, put all data to arraylist
             while (cursor.moveToNext()) { // get each record in table
+                // add the column to arrayList
                 testNo.add(cursor.getString(cursor.getColumnIndex("testNo")));
                 testDate.add(cursor.getString(cursor.getColumnIndex("testDate")));
                 testTime.add(cursor.getString(cursor.getColumnIndex("testTime")));

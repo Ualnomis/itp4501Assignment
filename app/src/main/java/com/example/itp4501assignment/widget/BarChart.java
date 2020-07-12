@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.itp4501assignment.R;
+import com.example.itp4501assignment.activity.QuizActivity;
 import com.example.itp4501assignment.entity.BarChartEntity;
 import com.example.itp4501assignment.utils.CalculateUtil;
 import com.example.itp4501assignment.utils.DensityUtil;
@@ -51,9 +52,9 @@ public class BarChart extends View {
     private Paint mAxisPaint, mTextPaint, mBarPaint, mBorderPaint, mUnitPaint;
     private List<BarChartEntity> mData;
 
-    private float mMaxYValue; // max value of y axis
+    private int mMaxYValue; // max value of y axis
 
-    private float mMaxYDivisionValue; // max value of y axis unit
+    private int mMaxYDivisionValue; // max value of y axis unit
 
     private Rect mBarRect, mBarRectClick;
 
@@ -85,7 +86,7 @@ public class BarChart extends View {
 
     private int mClickPosition; // click position
 
-    //滑动速度相关
+    // scroller
     private VelocityTracker mVelocityTracker;
     private Scroller mScroller;
 
@@ -155,13 +156,13 @@ public class BarChart extends View {
         this.mBarColors = colors;
         this.mUnitX = mUnitX;
         this.mUnitY = mUnitY;
-        this.mMaxYValue = 5;
-        setmMaxYValue(mMaxYValue);
+        this.mMaxYValue = QuizActivity.NUMOFQUESTION; // set max value of the Y Axis(the number of question)
+        setmMaxYDivisionValue(mMaxYValue); // set max value of division line
     }
 
-    // set the Max Y axis Value
-    private void setmMaxYValue(float mMaxYValue) {
-        mMaxYDivisionValue = (float) (mMaxYValue);
+    // set the division Y axis Value
+    private void setmMaxYDivisionValue(float mMaxYValue) {
+        mMaxYDivisionValue = (int) (mMaxYValue);
         mStartX = CalculateUtil.getDivisionTextMaxWidth(mMaxYDivisionValue, mContext) + 20;
     }
 
@@ -294,25 +295,26 @@ public class BarChart extends View {
     }
 
 
+    // calculate how to Scale Line
     private void drawScaleLine(Canvas canvas) {
-        float eachHeight = (mMaxHeight / 5);
-        float textValue = 0;
+        float eachHeight = (mMaxHeight / mMaxYValue); // calculate the height of each division
+        float textValue = 0; // text value
         if (mMaxYValue > 1) {
-            for (int i = 0; i <= 5; i++) {
+            for (int i = 0; i <= mMaxYValue; i++) {
                 float startY = mStartY - eachHeight * i;
                 BigDecimal maxValue = new BigDecimal(mMaxYDivisionValue);
                 BigDecimal fen = new BigDecimal(0.2 * i);
                 String text = null;
-                if (mMaxYDivisionValue % 5 != 0) {
+                if (mMaxYDivisionValue % mMaxYValue != 0) {
                     text = String.valueOf(maxValue.multiply(fen).floatValue());
                 } else {
-                    text = String.valueOf(maxValue.multiply(fen).longValue());
+                    text = i + "";
                 }
                 canvas.drawText(text, mStartX - mTextPaint.measureText(text) - 5, startY + mTextPaint.measureText("0") / 2, mTextPaint);
                 canvas.drawLine(mStartX, startY, mTotalWidth - mPaddingRight - mRightMargin, startY, mAxisPaint);
             }
         } else if (mMaxYValue > 0 && mMaxYValue <= 1) {
-            for (int i = 0; i <= 5; i++) {
+            for (int i = 0; i <= mMaxYValue; i++) {
                 float startY = mStartY - eachHeight * i;
                 textValue = CalculateUtil.numMathMul(mMaxYDivisionValue, (float) (0.2 * i));
                 String text = String.valueOf(textValue);
@@ -320,7 +322,7 @@ public class BarChart extends View {
                 canvas.drawLine(mStartX, startY, mTotalWidth - mPaddingRight - mRightMargin, startY, mAxisPaint);
             }
         } else {
-            for (int i = 0; i <= 5; i++) {
+            for (int i = 0; i <= mMaxYValue; i++) {
                 float startY = mStartY - eachHeight * i;
                 String text = String.valueOf(10 * i);
                 canvas.drawText(text, mStartX - mTextPaint.measureText(text) - 5, startY + mTextPaint.measureText("0") / 2, mTextPaint);
